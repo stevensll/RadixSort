@@ -1,4 +1,4 @@
-import java.util.*;
+//import java.util.*;
 public class Radix{
     
     public static int nth(int n, int col){
@@ -15,7 +15,7 @@ public class Radix{
             original.extend(buckets[i]);    
         }
     }
-
+    //SORT WITHOUT NEGATIVES
     public static void radixSortSimple(SortableLinkedList data){
        /*
        Procedure:
@@ -48,6 +48,34 @@ public class Radix{
             //System.out.println(data);
         }
 
+    }
+    //SORT WITH NEGATIVES
+    public static void radixSort(SortableLinkedList data){
+        /*
+        What we can do is apply a similar procedure to radixSortSimple, but if we create two buckets: one for negatives
+        and one for positives. At the end we merge the negative list with the positive list.
+        */
+        SortableLinkedList[] posBuckets = makeBuckets();
+        SortableLinkedList[] negBuckets = makeBuckets();            
+        
+        int passes = 1;
+        for(int n = 0; n < passes; n++){
+            int size = data.size();
+            for(int i = 0; i < size; i++){
+                int value = data.remove(0);
+                int digitAtValue = nth(value, n);
+                //negative value statement
+                if (value < 0){
+                    // place values at 10 - the digitvalue-1, since it is negative the smaller number will be at the higher index.
+                    negBuckets[10 - digitAtValue-1].add(value);
+                } else {
+                    posBuckets[digitAtValue].add(value);
+                }
+                if (length(value) > passes) passes = length(value);
+            }
+            merge(data,negBuckets);
+            merge(data,posBuckets);
+        }
     }
 
     private static SortableLinkedList[] makeBuckets(){
