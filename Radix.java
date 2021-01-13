@@ -67,7 +67,7 @@ public class Radix{
                 //negative value statement
                 if (value < 0){
                     // place values at 10 - the digitvalue-1, since it is negative the smaller number will be at the higher index.
-                    negBuckets[10 - digitAtValue-1].add(value);
+                    negBuckets[10 - Math.abs(digitAtValue)-1].add(value);
                 } else {
                     posBuckets[digitAtValue].add(value);
                 }
